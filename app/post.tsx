@@ -1,5 +1,5 @@
 import { ImageCarousel } from "./image-carousel";
-import { Post } from "@prisma/client";
+import { Post, File } from "@prisma/client";
 
 function parseDate(date: Date): string {
   return new Date(date).toLocaleDateString();
@@ -7,23 +7,25 @@ function parseDate(date: Date): string {
 
 export default function RenderPost({ post }: { post: Post }) {
   const parsedDate = parseDate(post.createdAt);
+  const files = post.files.map(({ url }) => ({ url }));
+  const hasLocation = !!post.location
   return (
     <div
-      className={"flex-auto bg-white border-gray-200 hover:border-pink-200 border rounded m-2 p-4 max-w-3xl"}>
-      <div className={"flex justify-between"}>
+      className={`p-4 max-w-3xl bg-white border-gray-200 hover:border-pink-200 border rounded ${className ?? ""}`}>
+      <div className={"flex justify-between items-center gap-2"}>
         <h2 className={"font-medium text-gray-800 text-2xl"}>{post.title}</h2>
-        <div className={"flex flex-row gap-1 pt-1 font-light text-gray-600 tracking-wider uppercase"}>
-          <span>{parsedDate}{", "}</span>
-          {post.location && (
+        <div className={" gap-1 font-light text-gray-600 tracking-wider uppercase"}>
+          <span>{parsedDate}{hasLocation ? ", " : ""}</span>
+          {hasLocation && (
             <span>
               {post.location}
             </span>
           )}
         </div>
       </div>
-      {/*{post.images &&*/}
-      {/*<ImageCarousel className={"mt-4"} images={post.images}/>*/}
-      {/*}*/}
+      {files.length > 0 &&
+      <ImageCarousel className={"mt-4"} images={files}/>
+      }
       <div>
         <p className={"py-4 text-gray-600 "}>
           {post.content}

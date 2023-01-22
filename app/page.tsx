@@ -3,7 +3,11 @@ import RenderPost from "./post";
 
 async function getPosts() {
   const prisma = new PrismaClient();
-  return prisma.post.findMany();
+  return prisma.post.findMany({
+    include: {
+      files: true
+    }
+  });
 }
 
 export default async function Home() {
