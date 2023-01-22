@@ -2,11 +2,6 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-export type ImageType = {
-  src: string;
-  caption?: string;
-}
-
 function useKeypress(key: string, handler: (event: KeyboardEvent) => void) {
   const eventListenerRef = useRef<(...args: any) => any>();
   useEffect(() => {
