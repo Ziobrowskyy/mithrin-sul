@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Navbar() {
   const menuItems = [
-    { name: "Add post", href: "/add-postnp" },
+    { name: "Add post", href: "/add-post" },
     { name: "Menu link 2", href: "/menu-2" },
     { name: "Menu link 3", href: "/menu-3" },
   ]
