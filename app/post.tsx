@@ -1,11 +1,17 @@
 import { ImageCarousel } from "./image-carousel";
-import { Post, File } from "@prisma/client";
+import { File, Post } from "@prisma/client";
 
 function parseDate(date: Date): string {
   return new Date(date).toLocaleDateString();
 }
 
-export default function RenderPost({ post }: { post: Post }) {
+export default function PostComponent({
+  post,
+  className
+}: {
+  post: Post & { files: File[] },
+  className?: string
+}) {
   const parsedDate = parseDate(post.createdAt);
   const files = post.files.map(({ url }) => ({ url }));
   const hasLocation = !!post.location
@@ -24,7 +30,7 @@ export default function RenderPost({ post }: { post: Post }) {
         </div>
       </div>
       {files.length > 0 &&
-      <ImageCarousel className={"mt-4"} images={files}/>
+        <ImageCarousel className={"mt-4"} images={files}/>
       }
       <div>
         <p className={"py-4 text-gray-600 "}>
