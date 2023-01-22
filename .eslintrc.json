@@ -6,6 +6,12 @@
     "prefer-const": "warn",
     "jsx-quotes": ["warn", "prefer-double"],
     "quotes": ["warn", "double"],
+    "indent": ["warn", 2, {
+      "FunctionDeclaration": {
+        "parameters": 1,
+        "body": 1
+      }
+    }],
     "react/jsx-indent": ["warn", 2],
     "object-curly-spacing": ["warn", "always"],
     "array-bracket-spacing": ["warn", "never"]
