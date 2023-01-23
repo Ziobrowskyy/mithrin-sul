@@ -19,18 +19,9 @@ model Post {
   content   String?
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  files     File[]
+  files     String[]
 
   @@map(name: "posts")
-}
-
-model File {
-  id     String @id @default(cuid())
-  url    String
-  post   Post   @relation(fields: [postId], references: [id])
-  postId String
-
-  @@map(name: "files")
 }
 
 model User {

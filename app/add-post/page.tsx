@@ -180,12 +180,5 @@ export default function AddPostPage() {
 function parseFiles(files: FileList | null | undefined) {
   if (!files)
     return [];
-
-  return Array.from(files).map((file, index) => (
-    {
-      id: index.toString(),
-      postId: index.toString(),
-      url: URL.createObjectURL(file),
-    }
-  ))
+  return Array.from(files).map(file => URL.createObjectURL(file));
 }
