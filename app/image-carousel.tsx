@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 
 function useKeypress(key: string, handler: (event: KeyboardEvent) => void) {
   const eventListenerRef = useRef<(...args: any) => any>();
@@ -19,7 +19,7 @@ function useKeypress(key: string, handler: (event: KeyboardEvent) => void) {
   });
 }
 
-function useClickOutside(ref: React.RefObject<HTMLElement>, handler: (event: MouseEvent) => void) {
+function useClickOutside(ref: RefObject<HTMLElement>, handler: (event: MouseEvent) => any) {
   useEffect(() => {
     const eventListener = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -28,7 +28,7 @@ function useClickOutside(ref: React.RefObject<HTMLElement>, handler: (event: Mou
     };
     document.addEventListener("mousedown", eventListener);
     return () => document.removeEventListener("mousedown", eventListener);
-  });
+  }, [ref, handler]);
 }
 
 export function ImageCarousel(
