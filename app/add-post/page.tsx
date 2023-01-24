@@ -44,9 +44,9 @@ export default function AddPostPage() {
   const { ref: fileInputRegisterRef, ...fileInputRegister } = register("files");
 
   return (
-    <div className={"flex items-start justify-around"}>
+    <div className={"flex flex-wrap gap-2 gap-y-4 p-4 items-start justify-around"}>
       <form
-        className={"max-w-3xl w-fit shrink-0 border rounded bg-white"}
+        className={"grow max-w-3xl border rounded bg-white"}
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="space-y-6 px-4 py-5 sm:p-6">
@@ -162,7 +162,7 @@ export default function AddPostPage() {
 
       {watchAllFields &&
         <PostComponent
-          className={"shrink-0"}
+          className={"max-w-3xl"}
           post={{
             id: "1",
             title: getValues("title"),

@@ -8,9 +8,17 @@ async function getPosts() {
 
 export default async function Home() {
   const posts = await getPosts();
+  const p = [...posts, ...posts];
   return (
-    <div className={"flex flex-col items-center"}>
-      {posts.map((post) => <PostComponent key={post.id} post={post}/>)}
+    <div className={"flex flex-col gap-4 p-2 items-center"}>
+      {
+        p.map((post) =>
+          <PostComponent
+            className={"max-w-3xl"}
+            key={post.id}
+            post={post}
+          />)
+      }
     </div>
   )
 }
