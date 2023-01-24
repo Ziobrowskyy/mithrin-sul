@@ -5,9 +5,6 @@ function getPost(id: string) {
   const prismaClient = new PrismaClient();
   return prismaClient.post.findFirst({
     where: { id },
-    include: {
-      files: true
-    }
   });
 }
 
