@@ -74,14 +74,14 @@ export function ImageCarousel(
 
   return (
     <div
-      className={`grid grid-cols-carousel grid-rows-carousel relative h-80 ${className ?? ""}`}
+      className={`group grid grid-cols-carousel grid-rows-carousel relative h-80 ${className ?? ""}`}
       ref={rootRef}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       onClick={() => setIsFocused(true)}
     >
       <Image
-        className={"col-span-full row-span-full object-cover"}
+        className={"col-span-full row-span-full object-contain"}
         fill
         src={image.url}
         alt={image.caption ?? ""}
@@ -90,7 +90,7 @@ export function ImageCarousel(
         <>
           <div className={"z-10 col-start-1 row-span-full flex items-center"}>
             <button
-              className={"mix-blend-exclusion text-gray-600 text-sm opacity-50 hover:opacity-100 transition-opacity duration-200"}
+              className={"mix-blend-exclusion text-gray-600 text-sm opacity-50 group-hover:opacity-100 transition-opacity duration-200"}
               onClick={prevImage}
             >
               Prev image
@@ -98,7 +98,7 @@ export function ImageCarousel(
           </div>
           <div className={"z-10 col-start-3 row-span-full flex items-center"}>
             <button
-              className={"mix-blend-exclusion text-gray-600 text-sm opacity-50 hover:opacity-100 transition-opacity duration-200"}
+              className={"mix-blend-exclusion text-gray-600 text-sm opacity-50 group-hover:opacity-100 transition-opacity duration-200"}
               onClick={nextImage}
             >
               Next image
@@ -106,12 +106,13 @@ export function ImageCarousel(
           </div>
 
           <div
-            className={"z-10 col-start-2 row-start-2 flex justify-center items-center"}>
+            className={"group/indicators z-10 col-start-2 row-start-2 flex justify-center items-center"}>
             <div className={"flex justify-center items-center gap-1 px-3 "}>
               {images.map((_, index) => (
                 <button
+                  data-selected={index === currentImage ? "true" : null}
                   key={index}
-                  className={`h-3 w-3 rounded-full border-2 border-gray-300 hover:border-pink-300 ${index === currentImage ? "bg-pink-300" : "bg-transparent"}`}
+                  className={"h-3 w-3 rounded-full border-2 border-gray-300 hover:border-pink-300 bg-transparent data-[selected]:bg-pink-300"}
                   onClick={() => setCurrentImage(index)}
                 ></button>
               ))}
