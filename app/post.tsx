@@ -1,10 +1,6 @@
 import { ImageCarousel } from "./image-carousel";
 import { Post } from "@prisma/client";
 
-function parseDate(date: Date): string {
-  return new Date(date).toLocaleDateString();
-}
-
 export default function PostComponent({
   post,
   className
@@ -12,7 +8,7 @@ export default function PostComponent({
   post: Post,
   className?: string
 }) {
-  const parsedDate = parseDate(post.createdAt);
+  const parsedDate = new Date(post.createdAt).toLocaleString();
   const hasLocation = !!post.location;
   const files = post.files.map(url => ({ url }));
   return (
