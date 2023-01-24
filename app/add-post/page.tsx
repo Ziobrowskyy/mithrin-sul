@@ -14,31 +14,30 @@ const postSchema = z.object({
 
 type PostSchema = z.infer<typeof postSchema>;
 
+function submitPost(data: PostSchema) {
+  const formData = new FormData();
+  formData.append("title", data.title);
+  if (data.location)
+    formData.append("location", data.location);
+  formData.append("content", data.content);
+  if (data.files) {
+    for (let i = 0; i < data.files.length; i++) {
+      formData.append("files", data.files[i]);
+    }
+  }
+
+  return fetch("/api/add-post", {
+    method: "POST",
+    body: formData
+  })
+}
+
 export default function AddPostPage() {
   const { register, handleSubmit, getValues, watch } = useForm<PostSchema>({
     resolver: zodResolver(postSchema),
   })
 
   const watchAllFields = watch();
-
-  const onSubmit = async (data: PostSchema) => {
-    const formData = new FormData();
-    formData.append("title", data.title);
-    if (data.location)
-      formData.append("location", data.location);
-    formData.append("content", data.content);
-    if (data.files) {
-      for (let i = 0; i < data.files.length; i++) {
-        formData.append("files", data.files[i]);
-      }
-    }
-
-    const response = await fetch("/api/add-post", {
-      method: "POST",
-      body: formData
-    })
-    console.log("response", response);
-  }
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { ref: fileInputRegisterRef, ...fileInputRegister } = register("files");
@@ -47,7 +46,7 @@ export default function AddPostPage() {
     <div className={"flex flex-wrap gap-2 gap-y-4 p-4 items-start justify-around"}>
       <form
         className={"grow max-w-3xl border rounded bg-white"}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(submitPost)}
       >
         <div className="space-y-6 px-4 py-5 sm:p-6">
           <div className="col-span-6 sm:col-span-3">
