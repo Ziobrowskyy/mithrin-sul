@@ -2,7 +2,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useRef } from "react";
+import { ChangeEvent, useReducer, useRef } from "react";
 import PostComponent from "../post";
 
 const postSchema = z.object({
@@ -40,7 +40,28 @@ export default function AddPostPage() {
   const watchAllFields = watch();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { ref: fileInputRegisterRef, ...fileInputRegister } = register("files");
+  const { ref: fileInputRegisterRef, ...fileInputRegister } = register("files", {
+    onChange: (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files)
+        dispatchFiles({ type: "add", data: Array.from(e.target.files) });
+    }
+  });
+
+  type FilesReducerActions = { type: "add", data: File[] } | { type: "remove", data: File };
+
+  const [files, dispatchFiles] = useReducer((files: File[], action: FilesReducerActions) => {
+    switch (action.type) {
+    case "add": {
+      const withoutDuplicates = action.data.filter(file => !files.find(f => f.name === file.name));
+      return [...files, ...withoutDuplicates];
+    }
+    case "remove": {
+      return files.filter(f => f != action.data);
+    }
+    default:
+      throw new Error("Invalid action type");
+    }
+  }, []);
 
   return (
     <div className={"flex flex-wrap gap-2 gap-y-4 p-4 items-start justify-around"}>
@@ -99,14 +120,12 @@ export default function AddPostPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700">Cover photo</label>
             <div
-              onClick={() => {
-                fileInputRef.current?.click();
-              }}
-              onDrop={e => {
-                console.log(e.dataTransfer.files);
-                e.preventDefault()
-              }}
+              onClick={() => fileInputRef.current?.click()}
               onDragOver={e => e.preventDefault()}
+              onDrop={e => {
+                e.preventDefault();
+                dispatchFiles({ type: "add", data: Array.from(e.dataTransfer.files) });
+              }}
               className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6"
             >
               <div className="space-y-1 text-center">
