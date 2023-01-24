@@ -9,7 +9,12 @@ const postSchema = z.object({
   title: z.string(),
   location: z.string().optional(),
   content: z.string(),
-  files: z.instanceof(FileList).optional(),
+  files: z.array(z.object({
+    name: z.string(),
+    lastModified: z.number(),
+    size: z.number(),
+    type: z.string(),
+  })).optional(),
 });
 
 export type PostSchema = z.infer<typeof postSchema>;

@@ -9,6 +9,7 @@ function submitPost(data: PostSchema) {
   formData.append("content", data.content);
   if (data.files) {
     for (let i = 0; i < data.files.length; i++) {
+      // @ts-expect-error
       formData.append("files", data.files[i]);
     }
   }
