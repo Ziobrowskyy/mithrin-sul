@@ -8,7 +8,7 @@ This app utilizes [Tailwind CSS](https://tailwindcss.com/) for styling and [Type
 
 ## Live Demo
 
-App is currently hosted on [Vercel](https://mithrin-sul-11za.vercel.app/).
+App is currently hosted on [Vercel](https://mithrin-sul.vercel.app/).
 
 ## Running and building locally
 
