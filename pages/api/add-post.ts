@@ -54,7 +54,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     fileWriteStreamHandler: () => fileConsumer(fileChunks)
   });
 
-  const formFiles = (files.files instanceof Array) ? files.files : [files.files];
+  const formFiles = new Array<formidable.File>();
+  if (files.files instanceof Array) {
+    formFiles.push(...files.files);
+  } else if(files.files) {
+    formFiles.push(files.files);
+  }
+
   const urls = await Promise.all(
     formFiles.map(async (file, index) => {
       const { data, error } = await supabase.storage.from("images").upload(file.newFilename, fileChunks[index], {
@@ -81,6 +87,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     data: {
       title: fields.title as string,
       content: fields.content as string,
+      location: fields.location as string,
       files: urls,
       author: {
         connect: {

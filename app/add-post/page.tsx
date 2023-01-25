@@ -4,12 +4,10 @@ import PostEditor, { PostSchema } from "../post-editor";
 function submitPost(data: PostSchema) {
   const formData = new FormData();
   formData.append("title", data.title);
-  if (data.location)
-    formData.append("location", data.location);
-  formData.append("content", data.content);
-  if (data.files) {
+  formData.append("location", data.location ?? "");
+  formData.append("content", data.content ?? "");
+  if (data.files as FileList) {
     for (let i = 0; i < data.files.length; i++) {
-      // @ts-expect-error
       formData.append("files", data.files[i]);
     }
   }

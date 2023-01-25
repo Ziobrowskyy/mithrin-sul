@@ -5,16 +5,12 @@ import { ChangeEvent, useReducer, useRef } from "react";
 import Image from "next/image";
 import PostComponent from "./post";
 
+// NOTE: type on files is intentional as a workaround for Next.js not supporting FileList in SSR due to it being a native DOM type
 const postSchema = z.object({
   title: z.string(),
   location: z.string().optional(),
-  content: z.string(),
-  files: z.array(z.object({
-    name: z.string(),
-    lastModified: z.number(),
-    size: z.number(),
-    type: z.string(),
-  })).optional(),
+  content: z.string().optional(),
+  files: z.any().optional(),
 });
 
 export type PostSchema = z.infer<typeof postSchema>;
