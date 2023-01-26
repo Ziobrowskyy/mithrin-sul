@@ -61,9 +61,9 @@ export default function PostEditor(
   }, []);
 
   return (
-    <div className={"flex flex-wrap gap-2 gap-y-4 p-4 items-start justify-around"}>
+    <div className={"flex flex-col xl:flex-row flex-wrap gap-2 gap-y-4 p-4 items-start justify-around"}>
       <form
-        className={"grow max-w-3xl border rounded bg-white"}
+        className={"flex-1 grow max-w-3xl border rounded bg-white"}
         onSubmit={handleSubmit((data) => onSubmit?.(data))}
       >
         <div className="space-y-6 px-4 py-5 sm:p-6">
@@ -118,7 +118,7 @@ export default function PostEditor(
             <span className={"block text-sm font-medium text-gray-700"}>
               Uploaded files
             </span>
-            <div className={"grid items-center gap-2"}>
+            <div className={"flex flex-wrap items-center gap-2"}>
               {
                 files.map((file) => (
                   <div
