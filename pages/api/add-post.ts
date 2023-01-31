@@ -47,7 +47,7 @@ function fileConsumer(fileBuffer: Buffer[]) {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+  const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_API_KEY!);
   const fileChunks = new Array<Buffer>();
   const { fields, files } = await formidablePromise(req, {
     ...formidableConfig,
